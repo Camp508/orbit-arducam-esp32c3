@@ -1,6 +1,6 @@
-# orbit-arducam-esp32c3
+# Arducam Mega 5MP w/ ESP32C3
 
-ESP32-C3 + Arducam Mega 5MP camera integration using Arduino and Python. This code is used to test the capture mode of a camera deployed inside a small enclosed environment (5cm x 5cm x 5cm). Captured images are served via a local HTTP server and viewable in any browser on the same network.
+ESP32-C3 + Arducam Mega 5MP camera integration using Arduino and Python. This code is used to test the capture mode of the camera to be deployed inside the CubeSat. Captured images are served via a local HTTP server and viewable in any browser on the same network.
 
 ---
 
@@ -54,7 +54,7 @@ orbit-arducam-esp32c3/
 
 ### 1. Install Arduino IDE
 
-Download and install [Arduino IDE 2.x](https://www.arduino.cc/en/software) for your platform.
+Download and install [Arduino IDE 2.x](https://www.arduino.cc/en/software) for your platform (version used: 2.3.6).
 
 ### 2. Install ESP32 Board Support
 
@@ -73,10 +73,8 @@ Download and install [Arduino IDE 2.x](https://www.arduino.cc/en/software) for y
 Copy the `arducam_library/` folder from this repository into your Arduino libraries directory:
 
 - **Linux:** `~/Arduino/libraries/Arducam_Mega/`
-- **Windows:** `Documents\Arduino\libraries\Arducam_Mega\`
-- **macOS:** `~/Documents/Arduino/libraries/Arducam_Mega/`
 
-This replaces any previously installed version of the Arducam Mega library. The library included here contains the patches described below.
+This should replace any previously installed version of the Arducam Mega library. The library included here contains the patches described below.
 
 ### 4. Upload the Sketch
 
@@ -134,7 +132,7 @@ http://<your-machine-ip>:8080
 
 ### `arducam_library/src/Arducam/ArducamSpi.cpp`
 
-The original library had two `void` functions incorrectly using `return` with a value, which causes a compilation error under the ESP32 toolchain (gcc with `-fpermissive` as error):
+The original library had two `void` functions incorrectly using `return` with a value, which caused a compilation error under the ESP32 toolchain (gcc with `-fpermissive` as error):
 
 ```cpp
 // Original - causes compilation error
@@ -175,8 +173,8 @@ Two changes from the original example:
 
 2. `myCAM.captureThread()` was removed from `loop()`. In the original example this causes the camera to stream data continuously, which interferes with the command/response protocol used by the Python host script:
    ```cpp
-   // Removed
-   myCAM.captureThread();
+   // Commented
+   // myCAM.captureThread();
    ```
 
 ### `arduino_sketch/full_featured.ino` - Baud Rate
